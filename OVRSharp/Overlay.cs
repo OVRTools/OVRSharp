@@ -238,7 +238,7 @@ namespace OVRSharp
             if (OpenVR.Overlay == null)
                 throw new NullReferenceException("OpenVR has not been initialized. Please initialize it by instantiating a new Application.");
 
-            var err = EVROverlayError.None;
+            EVROverlayError err;
 
             if (dashboardOverlay)
                 err = OpenVR.Overlay.CreateDashboardOverlay(key, name, ref overlayHandle, ref thumbnailHandle);
