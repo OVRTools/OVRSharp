@@ -369,11 +369,32 @@ namespace OVRSharp
             AssertNoError(OpenVR.Overlay.SetOverlayTexture(overlayHandle, ref texture));
         }
 
+        /// <summary>
+        /// Loads the specified file and sets that texture as the contents
+        /// of the overlay's thumbnail. Textures can be up to 1920x1080 in size.
+        /// PNG, JPG, and TGA files are supported in 24 or 32 bits.
+        /// </summary>
+        /// 
+        /// <param name="path">
+        /// Path to the file. If a relative path is provided it is assumed
+        /// to be relative to the resource directory in the OpenVR runtime.
+        /// </param>
         public void SetThumbnailTextureFromFile(string path)
         {
+            // TODO: these IsDashboardOverlay checks should probably error, not silently return
+            if (!IsDashboardOverlay) return;
             AssertNoError(OpenVR.Overlay.SetOverlayFromFile(thumbnailHandle, path));
         }
 
+        /// <summary>
+        /// Sets an existing application-created graphics resource as the
+        /// texture for the overlay's thumbnail. The type of the pTexture depends on
+        /// the eTextureType parameter.
+        /// </summary>
+        /// 
+        /// <param name="texture">
+        /// <see cref="Texture_t"/> struct describing the texture
+        /// </param>
         public void SetThumbnailTexture(Texture_t texture)
         {
             if (!IsDashboardOverlay) return;
