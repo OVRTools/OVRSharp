@@ -2,6 +2,24 @@
 
 OVRSharp is a high-level idiomatic C# interface for working with the OpenVR API.
 
+## Installation
+
+> **Note:** While OVRSharp does technically come packaged with `openvr_api.dll`, you will need to distribute it yourself alongside your application executable. You can download it [here](https://github.com/ValveSoftware/openvr/tree/master/bin) for the platform you are targeting.
+>
+> We are currently exploring options to automatically distribute the appropriate DLL alongside OVRSharp.
+
+OVRSharp is available on [NuGet](https://www.nuget.org/packages/OVRSharp), so you can install it just like any other NuGet package:
+
+```shell
+# .NET CLI
+dotnet add package OVRSharp
+
+# VS PowerShell
+Install-Package OVRSharp
+```
+
+## Usage
+
 Right now, our main goal with this is to make working with the overlay API easier and more C#-like, as well as being entirely platform-agnostic. So you could use this all on its own in your own .NET Core project, or throw it into Unity and work with it there.
 
 Later on, we plan on supporting basically the entirety of the OpenVR API, so you don't need to deal with pointers and stuff. Just write C# as you would expect.
@@ -73,8 +91,14 @@ if (overlayErr != EVROverlayError.None)
 }
 ```
 
-Docs coming Soon™️.
+If you encounter anything that is not natively supported by OVRSharp, you can always use the internal `Valve.VR` APIs. An instance of `CVRSystem` is accessible through `Application`, as `OVRSystem`.
+
+If you run into something you would really like to see supported, feel free to open an issue describing your use case! That will help us prioritize what functionality to add next.
 
 ## Examples
 
 OVRSharp is currently being used in [WhereIsForward](https://github.com/OVRTools/WhereIsForward), and in some unreleased projects.
+
+## License
+
+MIT
