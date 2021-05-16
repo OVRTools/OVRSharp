@@ -1,7 +1,17 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>TJ Horner</Authors>
+    <Description>High-level idiomatic C# interface for working with the OpenVR API</Description>
+    <RepositoryUrl>https://github.com/OVRTools/OVRSharp</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/OVRTools/OVRSharp</PackageProjectUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>openvr</PackageTags>
+    <Copyright>2020-2021 TJ Horner</Copyright>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <Product>OVRSharp</Product>
   </PropertyGroup>
 
   <ItemGroup>
@@ -11,5 +21,17 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Math\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="..\README.md">
+      <Pack>true</Pack>
+      <PackagePath>\</PackagePath>
+    </Content>
+
+    <Content Include="..\LICENSE">
+      <Pack>true</Pack>
+      <PackagePath>\</PackagePath>
+    </Content>
   </ItemGroup>
 </Project>
