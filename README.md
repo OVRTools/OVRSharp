@@ -4,9 +4,7 @@ OVRSharp is a high-level idiomatic C# interface for working with the OpenVR API.
 
 ## Installation
 
-> **Note:** While OVRSharp does technically come packaged with `openvr_api.dll`, you will need to distribute it yourself alongside your application executable. You can download it [here](https://github.com/ValveSoftware/openvr/tree/master/bin) for the platform you are targeting.
->
-> We are currently exploring options to automatically distribute the appropriate DLL alongside OVRSharp.
+> **Note:** OVRSharp comes with its own version of `openvr_api.dll` and will automatically copy it to your project's output directory.
 
 OVRSharp is available on [NuGet](https://www.nuget.org/packages/OVRSharp), so you can install it just like any other NuGet package:
 
