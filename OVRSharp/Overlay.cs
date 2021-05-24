@@ -10,6 +10,7 @@ namespace OVRSharp
         public enum TrackedDeviceRole
         {
             None,
+            Hmd,
             RightHand = ETrackedControllerRole.RightHand,
             LeftHand = ETrackedControllerRole.LeftHand
         }
@@ -68,7 +69,10 @@ namespace OVRSharp
                     return;
                 }
 
-                uint index = OpenVR.System.GetTrackedDeviceIndexForControllerRole((ETrackedControllerRole)value);
+                uint index = value == TrackedDeviceRole.Hmd
+                    ? OpenVR.k_unTrackedDeviceIndex_Hmd
+                    : OpenVR.System.GetTrackedDeviceIndexForControllerRole((ETrackedControllerRole)value);
+
                 err = OpenVR.Overlay.SetOverlayTransformTrackedDeviceRelative(overlayHandle, index, ref transform);
                 if (err != EVROverlayError.None) throw new Exception($"Could not set transform relative: {err}");
 
