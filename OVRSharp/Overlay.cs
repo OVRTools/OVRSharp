@@ -186,6 +186,27 @@ namespace OVRSharp
             }
         }
 
+        /// <summary>
+        /// Sets/gets the alpha of the overlay quad. Use 1.0 for 100 percent opacity to 0.0 for 0
+        /// percent opacity.
+        /// <br/>
+        /// By default, overlays are rendering at 100 percent alpha (1.0).
+        /// </summary>
+        public float Alpha
+        {
+            set
+            {
+                AssertNoError(OpenVR.Overlay.SetOverlayAlpha(overlayHandle, value));
+            }
+
+            get
+            {
+                float alpha = 0.0f;
+                AssertNoError(OpenVR.Overlay.GetOverlayAlpha(overlayHandle, ref alpha));
+                return alpha;
+            }
+        }
+
         private HmdMatrix34_t transform;
         public HmdMatrix34_t Transform {
             set
