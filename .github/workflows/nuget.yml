@@ -1,0 +1,19 @@
+name: Publish to NuGet
+on:
+  release:
+    types: [ created ]
+
+jobs:
+  build-publish:
+    name: Build and Publish
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.6
+    - name: Pack .nupkg
+      run: dotnet pack -c Release -o dist
+    - name: Publish to NuGet
+      run: dotnet nuget push dist\* --api-key ${{ secrets.NUGET_KEY }} --source https://api.nuget.org/v3/index.json
