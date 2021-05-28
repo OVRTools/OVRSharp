@@ -12,7 +12,7 @@ jobs:
     - name: Set up .NET
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 5.0.6
+        dotnet-version: "5.0.x"
     - name: Pack .nupkg
       run: dotnet pack -c Release -o dist
     - name: Publish to NuGet
