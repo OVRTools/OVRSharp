@@ -23,7 +23,7 @@ jobs:
 
     - name: Pack .nupkg (Pre-Release)
       if: ${{ github.event_name == 'push' }}
-      run: dotnet pack -c Release -o dist --version-suffix "${{ github.sha }}"
+      run: dotnet pack -c Release -o dist --version-suffix "git-${{ github.sha }}"
 
     - name: Publish to NuGet
       run: dotnet nuget push dist\* --api-key ${{ secrets.NUGET_KEY }} --source https://api.nuget.org/v3/index.json
