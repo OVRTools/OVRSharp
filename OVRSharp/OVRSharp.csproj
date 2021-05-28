@@ -13,7 +13,8 @@
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <Product>OVRSharp</Product>
-    <Version>1.0.2</Version>
+    <VersionPrefix>1.0.3</VersionPrefix>
+    <VersionSuffix>$(VersionSuffix)</VersionSuffix>
   </PropertyGroup>
 
   <ItemGroup>
