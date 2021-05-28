@@ -17,6 +17,14 @@
     <VersionSuffix>$(VersionSuffix)</VersionSuffix>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <NoWarn>1591</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <NoWarn>1591</NoWarn>
+  </PropertyGroup>
+
   <ItemGroup>
     <Content Include="openvr_api.dll">
       <PackageCopyToOutput>true</PackageCopyToOutput>
