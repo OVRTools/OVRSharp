@@ -21,6 +21,7 @@ namespace OVRSharp
         public event EventHandler<VREvent_t> OnMouseMove;
         public event EventHandler<VREvent_t> OnMouseDown;
         public event EventHandler<VREvent_t> OnMouseUp;
+        public event EventHandler<VREvent_t> OnUnknown;
 
         public readonly string Key;
         public readonly string Name;
@@ -466,6 +467,9 @@ namespace OVRSharp
                         break;
                     case EVREventType.VREvent_MouseButtonUp:
                         OnMouseUp?.Invoke(this, evt);
+                        break;
+                    default:
+                        OnUnknown?.Invoke(this, evt);
                         break;
                 }
             }
