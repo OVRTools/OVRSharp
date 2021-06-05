@@ -93,6 +93,27 @@ If you encounter anything that is not natively supported by OVRSharp, you can al
 
 If you run into something you would really like to see supported, feel free to open an issue describing your use case! That will help us prioritize what functionality to add next.
 
+### Overlay transformations
+
+Matrix manipulation is not something easy, OVRSharp provides extension methods to convert the [`HmdMatrix34_t`](https://github.com/ValveSoftware/openvr/blob/4c85abcb7f7f1f02adaf3812018c99fc593bc341/headers/openvr.h#L32-L40) structure to and from the [`Matrix4x4`](https://docs.microsoft.com/en-us/dotnet/api/system.numerics.matrix4x4?view=net-5.0) structure.
+
+The purpose is to ease manipulations, the `Matrix4x4` struct contains [many static methods to apply translations, rotations, etc.](https://docs.microsoft.com/en-us/dotnet/api/system.numerics.matrix4x4?view=net-5.0#methods) That way you can transform your `Matrix4x4` with a high level of abstraction and then convert it to a `HmdMatrix34_t` before passing it to OpenVR. Here's an example:
+
+```csharp
+using OVRSharp;
+using OVRSharp.Math; // Use "Math" to be able call the "ToHmdMatrix34_t()" and "ToMatrix4x4()" methods.
+
+float radians = (float)((Math.PI / 180) * 90); // 90 degrees to radians
+var rotation = Matrix4x4.CreateRotationX(radians); // Lay the overlay flat by rotating it by 90 degrees
+var translation = Matrix4x4.CreateTranslation(0, 1, 0); // Raise the overlay one meter above the ground
+var transform = Matrix4x4.Multiply(rotation, translation); // Combine the transformations in one matrix
+
+Overlay overlay = new("key", "name")
+{
+    Transform = transform.ToHmdMatrix34_t(), // Convert the Matrix4x4 to a HmdMatrix34_t and pass it to OpenVR
+};
+```
+
 ## Examples
 
 OVRSharp is currently being used in [WhereIsForward](https://github.com/OVRTools/WhereIsForward), and in some unreleased projects.
