@@ -1,9 +1,10 @@
-﻿using OVRSharp.Exceptions;
+﻿using System;
+using OVRSharp.Exceptions;
 using Valve.VR;
 
 namespace OVRSharp
 {
-    public class Application
+    public class Application : IDisposable
     {
         public enum ApplicationType
         {
@@ -34,7 +35,7 @@ namespace OVRSharp
         }
 
         public readonly ApplicationType Type;
-        public readonly CVRSystem OVRSystem;
+        public CVRSystem OVRSystem { get; private set; }
 
         /// <summary>
         /// Instantiate and initialize a new <see cref="Application"/>.
@@ -46,8 +47,10 @@ namespace OVRSharp
         /// <param name="startupInfo"></param>
         public Application(ApplicationType type, string startupInfo = "")
         {
+            Type = type;
+            
             // Attempt to initialize a new OpenVR context
-            EVRInitError err = EVRInitError.None;
+            var err = EVRInitError.None;
             OVRSystem = OpenVR.Init(ref err, (EVRApplicationType)type, startupInfo);
 
             if (err != EVRInitError.None)
@@ -57,6 +60,23 @@ namespace OVRSharp
         public void Shutdown()
         {
             OpenVR.Shutdown();
+            OVRSystem = null;
+        }
+
+        private void ReleaseUnmanagedResources()
+        {
+            Shutdown();
+        }
+
+        public void Dispose()
+        {
+            ReleaseUnmanagedResources();
+            GC.SuppressFinalize(this);
+        }
+
+        ~Application()
+        {
+            ReleaseUnmanagedResources();
         }
     }
 }

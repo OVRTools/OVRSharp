@@ -35,13 +35,7 @@ namespace OVRSharp
         /// <summary>
         /// The pointer to the underlying OpenVR object for this overlay.
         /// </summary>
-        public ulong Handle
-        {
-            get
-            {
-                return overlayHandle;
-            }
-        }
+        public ulong Handle => _overlayHandle;
 
         /// <summary>
         /// The tracked device that the overlay is currently attached to.
@@ -50,22 +44,19 @@ namespace OVRSharp
         /// </summary>
         public TrackedDeviceRole TrackedDevice
         {
-            get
-            {
-                return trackedDevice;
-            }
+            get => _trackedDevice;
 
             set
             {
                 if (IsDashboardOverlay) return;
 
-                trackedDevice = value;
+                _trackedDevice = value;
 
                 EVROverlayError err;
 
                 if (value == TrackedDeviceRole.None)
                 {
-                    err = OpenVR.Overlay.SetOverlayTransformAbsolute(overlayHandle, ETrackingUniverseOrigin.TrackingUniverseStanding, ref transform);
+                    err = OpenVR.Overlay.SetOverlayTransformAbsolute(_overlayHandle, ETrackingUniverseOrigin.TrackingUniverseStanding, ref _transform);
                     if (err != EVROverlayError.None) throw new Exception($"Could not set transform absolute: {err}");
                     return;
                 }
@@ -74,10 +65,10 @@ namespace OVRSharp
                     ? OpenVR.k_unTrackedDeviceIndex_Hmd
                     : OpenVR.System.GetTrackedDeviceIndexForControllerRole((ETrackedControllerRole)value);
 
-                err = OpenVR.Overlay.SetOverlayTransformTrackedDeviceRelative(overlayHandle, index, ref transform);
+                err = OpenVR.Overlay.SetOverlayTransformTrackedDeviceRelative(_overlayHandle, index, ref _transform);
                 if (err != EVROverlayError.None) throw new Exception($"Could not set transform relative: {err}");
 
-                trackedDeviceIndex = index;
+                _trackedDeviceIndex = index;
             }
         }
 
@@ -88,15 +79,12 @@ namespace OVRSharp
         /// </summary>
         public VRTextureBounds_t TextureBounds
         {
-            set
-            {
-                AssertNoError(OpenVR.Overlay.SetOverlayTextureBounds(overlayHandle, ref value));
-            }
+            set => AssertNoError(OpenVR.Overlay.SetOverlayTextureBounds(_overlayHandle, ref value));
 
             get
             {
-                VRTextureBounds_t bounds = new VRTextureBounds_t();
-                AssertNoError(OpenVR.Overlay.GetOverlayTextureBounds(overlayHandle, ref bounds));
+                var bounds = new VRTextureBounds_t();
+                AssertNoError(OpenVR.Overlay.GetOverlayTextureBounds(_overlayHandle, ref bounds));
                 return bounds;
             }
         }
@@ -108,15 +96,12 @@ namespace OVRSharp
         /// </summary>
         public HmdVector2_t MouseScale
         {
-            set
-            {
-                AssertNoError(OpenVR.Overlay.SetOverlayMouseScale(overlayHandle, ref value));
-            }
+            set => AssertNoError(OpenVR.Overlay.SetOverlayMouseScale(_overlayHandle, ref value));
 
             get
             {
-                HmdVector2_t scale = new HmdVector2_t();
-                AssertNoError(OpenVR.Overlay.GetOverlayMouseScale(overlayHandle, ref scale));
+                var scale = new HmdVector2_t();
+                AssertNoError(OpenVR.Overlay.GetOverlayMouseScale(_overlayHandle, ref scale));
                 return scale;
             }
         }
@@ -130,13 +115,13 @@ namespace OVRSharp
         {
             set
             {
-                AssertNoError(OpenVR.Overlay.SetOverlayInputMethod(overlayHandle, value));
+                AssertNoError(OpenVR.Overlay.SetOverlayInputMethod(_overlayHandle, value));
             }
 
             get
             {
                 VROverlayInputMethod method = VROverlayInputMethod.None;
-                AssertNoError(OpenVR.Overlay.GetOverlayInputMethod(overlayHandle, ref method));
+                AssertNoError(OpenVR.Overlay.GetOverlayInputMethod(_overlayHandle, ref method));
                 return method;
             }
         }
@@ -151,15 +136,12 @@ namespace OVRSharp
         /// </summary>
         public float WidthInMeters
         {
-            set
-            {
-                AssertNoError(OpenVR.Overlay.SetOverlayWidthInMeters(overlayHandle, value));
-            }
+            set => AssertNoError(OpenVR.Overlay.SetOverlayWidthInMeters(_overlayHandle, value));
 
             get
             {
-                float width = 0.0f;
-                AssertNoError(OpenVR.Overlay.GetOverlayWidthInMeters(overlayHandle, ref width));
+                var width = 0.0f;
+                AssertNoError(OpenVR.Overlay.GetOverlayWidthInMeters(_overlayHandle, ref width));
                 return width;
             }
         }
@@ -174,15 +156,12 @@ namespace OVRSharp
         /// </summary>
         public float Curvature
         {
-            set
-            {
-                AssertNoError(OpenVR.Overlay.SetOverlayCurvature(overlayHandle, value));
-            }
+            set => AssertNoError(OpenVR.Overlay.SetOverlayCurvature(_overlayHandle, value));
 
             get
             {
-                float curvature = 0.0f;
-                AssertNoError(OpenVR.Overlay.GetOverlayCurvature(overlayHandle, ref curvature));
+                var curvature = 0.0f;
+                AssertNoError(OpenVR.Overlay.GetOverlayCurvature(_overlayHandle, ref curvature));
                 return curvature;
             }
         }
@@ -195,50 +174,44 @@ namespace OVRSharp
         /// </summary>
         public float Alpha
         {
-            set
-            {
-                AssertNoError(OpenVR.Overlay.SetOverlayAlpha(overlayHandle, value));
-            }
+            set => AssertNoError(OpenVR.Overlay.SetOverlayAlpha(_overlayHandle, value));
 
             get
             {
-                float alpha = 0.0f;
-                AssertNoError(OpenVR.Overlay.GetOverlayAlpha(overlayHandle, ref alpha));
+                var alpha = 0.0f;
+                AssertNoError(OpenVR.Overlay.GetOverlayAlpha(_overlayHandle, ref alpha));
                 return alpha;
             }
         }
 
-        private HmdMatrix34_t transform;
+        private HmdMatrix34_t _transform;
         public HmdMatrix34_t Transform {
             set
             {
                 if (IsDashboardOverlay) return;
 
-                transform = value;
+                _transform = value;
 
                 // absolute transform (no tracked devices)
                 if(TrackedDevice == TrackedDeviceRole.None)
                 {
-                    AssertNoError(OpenVR.Overlay.SetOverlayTransformAbsolute(overlayHandle, ETrackingUniverseOrigin.TrackingUniverseStanding, ref value));
+                    AssertNoError(OpenVR.Overlay.SetOverlayTransformAbsolute(_overlayHandle, ETrackingUniverseOrigin.TrackingUniverseStanding, ref value));
                     return;
                 }
 
                 // relative transform (oops, we are assuming things)
-                AssertNoError(OpenVR.Overlay.SetOverlayTransformTrackedDeviceRelative(overlayHandle, trackedDeviceIndex, ref value));
+                AssertNoError(OpenVR.Overlay.SetOverlayTransformTrackedDeviceRelative(_overlayHandle, _trackedDeviceIndex, ref value));
             }
 
-            get
-            {
-                return transform;
-            }
+            get => _transform;
         }
 
-        private TrackedDeviceRole trackedDevice = TrackedDeviceRole.None;
-        private uint trackedDeviceIndex = 0;
+        private TrackedDeviceRole _trackedDevice = TrackedDeviceRole.None;
+        private uint _trackedDeviceIndex = 0;
 
-        private ulong overlayHandle;
-        private ulong thumbnailHandle;
-        private Thread pollThread;
+        private readonly ulong _overlayHandle;
+        private readonly ulong _thumbnailHandle;
+        private Thread _pollThread;
 
         /// <summary>
         /// Instantiate a new OpenVR overlay with the specified key
@@ -267,9 +240,9 @@ namespace OVRSharp
             EVROverlayError err;
 
             if (dashboardOverlay)
-                err = OpenVR.Overlay.CreateDashboardOverlay(key, name, ref overlayHandle, ref thumbnailHandle);
+                err = OpenVR.Overlay.CreateDashboardOverlay(key, name, ref _overlayHandle, ref _thumbnailHandle);
             else
-                err = OpenVR.Overlay.CreateOverlay(key, name, ref overlayHandle);
+                err = OpenVR.Overlay.CreateOverlay(key, name, ref _overlayHandle);
 
             if (err != EVROverlayError.None)
                 throw new OpenVRSystemException<EVROverlayError>($"Could not initialize overlay: {err}", err);
@@ -288,7 +261,7 @@ namespace OVRSharp
         /// </param>
         public Overlay(ulong overlayHandle)
         {
-            this.overlayHandle = overlayHandle;
+            _overlayHandle = overlayHandle;
 
             // TODO: set Key and Name accordingly
             //StringBuilder keyVal = new StringBuilder((int)OpenVR.k_unVROverlayMaxKeyLength);
@@ -307,10 +280,10 @@ namespace OVRSharp
         /// </summary>
         public void StartPolling()
         {
-            if (pollThread != null) return;
+            if (_pollThread != null) return;
 
-            pollThread = new Thread(new ThreadStart(Poll));
-            pollThread.Start();
+            _pollThread = new Thread(Poll);
+            _pollThread.Start();
         }
 
         /// <summary>
@@ -323,7 +296,7 @@ namespace OVRSharp
         /// </summary>
         public void StopPolling()
         {
-            if (pollThread == null) return;
+            if (_pollThread == null) return;
         }
 
         /// <summary>
@@ -338,7 +311,7 @@ namespace OVRSharp
         public void Show()
         {
             if (IsDashboardOverlay) return;
-            AssertNoError(OpenVR.Overlay.ShowOverlay(overlayHandle));
+            AssertNoError(OpenVR.Overlay.ShowOverlay(_overlayHandle));
         }
 
         /// <summary>
@@ -353,7 +326,7 @@ namespace OVRSharp
         public void Hide()
         {
             if (IsDashboardOverlay) return;
-            AssertNoError(OpenVR.Overlay.HideOverlay(overlayHandle));
+            AssertNoError(OpenVR.Overlay.HideOverlay(_overlayHandle));
         }
 
         /// <summary>
@@ -363,7 +336,7 @@ namespace OVRSharp
         public void Destroy()
         {
             StopPolling();
-            AssertNoError(OpenVR.Overlay.DestroyOverlay(overlayHandle));
+            AssertNoError(OpenVR.Overlay.DestroyOverlay(_overlayHandle));
         }
 
         /// <summary>
@@ -378,7 +351,7 @@ namespace OVRSharp
         /// </param>
         public void SetTextureFromFile(string path)
         {
-            AssertNoError(OpenVR.Overlay.SetOverlayFromFile(overlayHandle, path));
+            AssertNoError(OpenVR.Overlay.SetOverlayFromFile(_overlayHandle, path));
         }
 
         /// <summary>
@@ -392,7 +365,7 @@ namespace OVRSharp
         /// </param>
         public void SetTexture(Texture_t texture)
         {
-            AssertNoError(OpenVR.Overlay.SetOverlayTexture(overlayHandle, ref texture));
+            AssertNoError(OpenVR.Overlay.SetOverlayTexture(_overlayHandle, ref texture));
         }
 
         /// <summary>
@@ -409,7 +382,7 @@ namespace OVRSharp
         {
             // TODO: these IsDashboardOverlay checks should probably error, not silently return
             if (!IsDashboardOverlay) return;
-            AssertNoError(OpenVR.Overlay.SetOverlayFromFile(thumbnailHandle, path));
+            AssertNoError(OpenVR.Overlay.SetOverlayFromFile(_thumbnailHandle, path));
         }
 
         /// <summary>
@@ -424,7 +397,7 @@ namespace OVRSharp
         public void SetThumbnailTexture(Texture_t texture)
         {
             if (!IsDashboardOverlay) return;
-            AssertNoError(OpenVR.Overlay.SetOverlayTexture(thumbnailHandle, ref texture));
+            AssertNoError(OpenVR.Overlay.SetOverlayTexture(_thumbnailHandle, ref texture));
         }
 
         /// <summary>
@@ -435,10 +408,10 @@ namespace OVRSharp
         /// <param name="value">Flag value to set</param>
         public void SetFlag(VROverlayFlags flag, bool value)
         {
-            AssertNoError(OpenVR.Overlay.SetOverlayFlag(overlayHandle, flag, value));
+            AssertNoError(OpenVR.Overlay.SetOverlayFlag(_overlayHandle, flag, value));
         }
 
-        private void AssertNoError(EVROverlayError error)
+        private static void AssertNoError(EVROverlayError error)
         {
             if (error == EVROverlayError.None) return;
             throw new OpenVRSystemException<EVROverlayError>($"An error occurred within an Overlay. {error}", error);
@@ -448,10 +421,10 @@ namespace OVRSharp
         {
             while (true)
             {
-                VREvent_t evt = new VREvent_t();
+                var evt = new VREvent_t();
                 var size = (uint)System.Runtime.InteropServices.Marshal.SizeOf(typeof(VREvent_t));
 
-                if (!OpenVR.Overlay.PollNextOverlayEvent(overlayHandle, ref evt, size))
+                if (!OpenVR.Overlay.PollNextOverlayEvent(_overlayHandle, ref evt, size))
                 {
                     Thread.Sleep(PollingRate);
                     continue;

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace OVRSharp.Exceptions
 {
-    class OpenVRSystemException<ErrorType> : Exception
+    public class OpenVRSystemException<ErrorType> : Exception
     {
         public readonly ErrorType Error;
 
