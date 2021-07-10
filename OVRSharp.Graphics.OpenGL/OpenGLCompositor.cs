@@ -3,23 +3,33 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGLES3;
+using OpenTK.Windowing.Desktop;
 using OVRSharp.Exceptions;
 using Valve.VR;
 using PixelFormat = System.Drawing.Imaging.PixelFormat;
 
 namespace OVRSharp.Graphics.OpenGL
 {
-    public class OpenGLCompositor : ICompositorAPI
+    public class OpenGLCompositor : NativeWindow, ICompositorAPI
     {
+        public OpenGLCompositor() : base(
+            new NativeWindowSettings
+            {
+                StartVisible = true,
+                Title = "OVRSharp Window",
+                WindowState = OpenTK.Windowing.Common.WindowState.Minimized
+            }
+        ) { }
+
         public Bitmap GetMirrorImage(EVREye eye = EVREye.Eye_Left)
         {
             uint textureId = 0;
             var handle = IntPtr.Zero;
-            
+
             var result = OpenVR.Compositor.GetMirrorTextureGL(eye, ref textureId, handle);
             if (result != EVRCompositorError.None)
                 throw new OpenVRSystemException<EVRCompositorError>("Failed to get mirror texture from OpenVR", result);
-            
+
             GL.BindTexture(TextureTarget.Texture2d, new TextureHandle((int)textureId));
 
             var height = 0;

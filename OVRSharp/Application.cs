@@ -4,7 +4,7 @@ using Valve.VR;
 
 namespace OVRSharp
 {
-    public class Application : IDisposable
+    public class Application
     {
         public enum ApplicationType
         {
@@ -61,22 +61,6 @@ namespace OVRSharp
         {
             OpenVR.Shutdown();
             OVRSystem = null;
-        }
-
-        private void ReleaseUnmanagedResources()
-        {
-            Shutdown();
-        }
-
-        public void Dispose()
-        {
-            ReleaseUnmanagedResources();
-            GC.SuppressFinalize(this);
-        }
-
-        ~Application()
-        {
-            ReleaseUnmanagedResources();
         }
     }
 }

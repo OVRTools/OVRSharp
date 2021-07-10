@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace OVRSharp.Exceptions
 {
@@ -12,7 +10,7 @@ namespace OVRSharp.Exceptions
         public OpenVRSystemException(string message) : base(message) { }
         public OpenVRSystemException(string message, Exception inner) : base(message, inner) { }
 
-        public OpenVRSystemException(string message, ErrorType error) : this(message)
+        public OpenVRSystemException(string message, ErrorType error) : this($"{message} ({error})")
         {
             Error = error;
         }
