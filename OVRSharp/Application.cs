@@ -20,7 +20,7 @@ namespace OVRSharp
 
             /// <summary>
             /// The application will not start SteamVR. If it is not already running
-            /// the call with VR_Init will fail with VRInitError_Init_NoServerForBackgroundApp.
+            /// the call with VR_Init will fail with <see cref="EVRInitError.Init_NoServerForBackgroundApp"/>.
             /// </summary>
             Background = EVRApplicationType.VRApplication_Background,
 

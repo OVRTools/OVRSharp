@@ -1,6 +1,11 @@
+using NUnit.Framework;
 using OVRSharp.Tests.Graphics;
 
 namespace OVRSharp.Graphics.DirectX.Tests
 {
-    public class DirectXCompositorTests : CompositorTests<DirectXCompositor> { }
+    [TestFixture]
+    public class DirectXCompositorTests : CompositorTests<DirectXCompositor>
+    {
+        protected override DirectXCompositor InstantiateCompositorAPI() => DirectXCompositor.Instance;
+    }
 }

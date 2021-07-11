@@ -10,13 +10,45 @@ namespace OVRSharp.Graphics.DirectX
 {
     public class DirectXCompositor : ICompositorAPI
     {
+        /// <summary>
+        /// Global, static instance of <see cref="DirectXCompositor"/>.
+        /// </summary>
+        public static DirectXCompositor Instance
+        {
+            get
+            {
+                if (_instance == null)
+                    _instance = new DirectXCompositor();
+
+                return _instance;
+            }
+        }
+
+        private static DirectXCompositor _instance = null;
+
         private readonly Device device;
 
+        /// <summary>
+        /// A DirectX-based implementation of <see cref="ICompositorAPI"/>.<br/><br/>
+        /// 
+        /// Ideally, there should ever only be one instance of this class
+        /// at once. You can provide <see cref="Instance"/> to anything that depends
+        /// on <see cref="ICompositorAPI"/> to ensure that this is the case.
+        /// </summary>
         public DirectXCompositor()
         {
             device = new Device(SharpDX.Direct3D.DriverType.Hardware, DeviceCreationFlags.Debug);
         }
 
+        /// <summary>
+        /// <inheritdoc/><br/><br/>
+        /// 
+        /// <strong>Warning:</strong> this is a pretty slow method.
+        /// It's fine to use this for one-off captures, but if you require
+        /// something like a constant stream of the headset view, I recommend
+        /// digging into a lower-level implementation.
+        /// </summary>
+        /// <inheritdoc/>
         public Bitmap GetMirrorImage(EVREye eye = EVREye.Eye_Left)
         {
             var srvPtr = IntPtr.Zero;
@@ -46,7 +78,7 @@ namespace OVRSharp.Graphics.DirectX
                 Usage = ResourceUsage.Staging
             }))
             {
-                // Copy texture to CPU so we can read from it
+                // Copy texture to RAM so CPU can read from it
                 device.ImmediateContext.CopyResource(tex, cpuTex);
                 OpenVR.Compositor.ReleaseMirrorTextureD3D11(srvPtr);
 
