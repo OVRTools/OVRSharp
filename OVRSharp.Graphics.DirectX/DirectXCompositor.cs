@@ -32,8 +32,7 @@ namespace OVRSharp.Graphics.DirectX
             var bitmap = new Bitmap(texDesc.Width, texDesc.Height);
             var boundsRect = new Rectangle(0, 0, texDesc.Width, texDesc.Height);
 
-            // Copy texture to CPU so we can read from it
-            var cpuTex = new Texture2D(device, new Texture2DDescription
+            using(var cpuTex = new Texture2D(device, new Texture2DDescription
             {
                 CpuAccessFlags = CpuAccessFlags.Read,
                 BindFlags = BindFlags.None,
@@ -45,26 +44,27 @@ namespace OVRSharp.Graphics.DirectX
                 ArraySize = 1,
                 SampleDescription = { Count = 1, Quality = 0 },
                 Usage = ResourceUsage.Staging
-            });
-
-            device.ImmediateContext.CopyResource(tex, cpuTex);
-            OpenVR.Compositor.ReleaseMirrorTextureD3D11(srvPtr);
-
-            var mapSource = device.ImmediateContext.MapSubresource(cpuTex, 0, MapMode.Read, SharpDX.Direct3D11.MapFlags.None);
-            var mapDest = bitmap.LockBits(boundsRect, ImageLockMode.WriteOnly, bitmap.PixelFormat);
-            var sourcePtr = mapSource.DataPointer;
-            var destPtr = mapDest.Scan0;
-
-            for (int y = 0; y < texDesc.Height; y++)
+            }))
             {
-                Utilities.CopyMemory(destPtr, sourcePtr, texDesc.Width * 4);
-                sourcePtr = IntPtr.Add(sourcePtr, mapSource.RowPitch);
-                destPtr = IntPtr.Add(destPtr, mapDest.Stride);
-            }
+                // Copy texture to CPU so we can read from it
+                device.ImmediateContext.CopyResource(tex, cpuTex);
+                OpenVR.Compositor.ReleaseMirrorTextureD3D11(srvPtr);
 
-            bitmap.UnlockBits(mapDest);
-            device.ImmediateContext.UnmapSubresource(cpuTex, 0);
-            cpuTex.Dispose();
+                var mapSource = device.ImmediateContext.MapSubresource(cpuTex, 0, MapMode.Read, MapFlags.None);
+                var mapDest = bitmap.LockBits(boundsRect, ImageLockMode.WriteOnly, bitmap.PixelFormat);
+                var sourcePtr = mapSource.DataPointer;
+                var destPtr = mapDest.Scan0;
+
+                for (int y = 0; y < texDesc.Height; y++)
+                {
+                    Utilities.CopyMemory(destPtr, sourcePtr, texDesc.Width * 4);
+                    sourcePtr = IntPtr.Add(sourcePtr, mapSource.RowPitch);
+                    destPtr = IntPtr.Add(destPtr, mapDest.Stride);
+                }
+
+                bitmap.UnlockBits(mapDest);
+                device.ImmediateContext.UnmapSubresource(cpuTex, 0);
+            }
 
             FlipChannels(ref bitmap);
             return bitmap;

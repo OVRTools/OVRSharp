@@ -12,9 +12,10 @@
       <Copyright>2020-2021 TJ Horner</Copyright>
       <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
       <GenerateDocumentationFile>true</GenerateDocumentationFile>
-      <Product>OVRSharp</Product>
+      <Product>OVRSharp.Graphics.OpenGL</Product>
       <VersionPrefix>1.1.0</VersionPrefix>
       <VersionSuffix>$(VersionSuffix)</VersionSuffix>
+      <IsPackable>false</IsPackable>
     </PropertyGroup>
 
     <ItemGroup>
