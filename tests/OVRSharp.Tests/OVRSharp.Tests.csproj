@@ -14,9 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\OVRSharp.Graphics.DirectX\OVRSharp.Graphics.DirectX.csproj" />
     <ProjectReference Include="..\..\OVRSharp\OVRSharp.csproj" />
-    <ProjectReference Include="..\OVRSharp.Tests\OVRSharp.Tests.csproj" />
   </ItemGroup>
 
 </Project>
