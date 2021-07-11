@@ -15,7 +15,7 @@ namespace OVRSharp.Graphics.OpenGL
         public OpenGLCompositor() : base(
             new NativeWindowSettings
             {
-                StartVisible = true,
+                StartVisible = false,
                 Title = "OVRSharp Window",
                 WindowState = OpenTK.Windowing.Common.WindowState.Minimized
             }
@@ -24,11 +24,13 @@ namespace OVRSharp.Graphics.OpenGL
         public Bitmap GetMirrorImage(EVREye eye = EVREye.Eye_Left)
         {
             uint textureId = 0;
-            var handle = IntPtr.Zero;
+            var handle = new IntPtr();
 
             var result = OpenVR.Compositor.GetMirrorTextureGL(eye, ref textureId, handle);
             if (result != EVRCompositorError.None)
                 throw new OpenVRSystemException<EVRCompositorError>("Failed to get mirror texture from OpenVR", result);
+
+            OpenVR.Compositor.LockGLSharedTextureForAccess(handle);
 
             GL.BindTexture(TextureTarget.Texture2d, new TextureHandle((int)textureId));
 
@@ -47,8 +49,10 @@ namespace OVRSharp.Graphics.OpenGL
 
             bitmap.UnlockBits(data);
             bitmap.RotateFlip(RotateFlipType.RotateNoneFlipY);
-            
+
+            OpenVR.Compositor.UnlockGLSharedTextureForAccess(handle);
             OpenVR.Compositor.ReleaseSharedGLTexture(textureId, handle);
+
             return bitmap;
         }
     }
