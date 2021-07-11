@@ -28,6 +28,7 @@
   <ItemGroup>
     <Content Include="openvr_api.dll">
       <PackageCopyToOutput>true</PackageCopyToOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   
