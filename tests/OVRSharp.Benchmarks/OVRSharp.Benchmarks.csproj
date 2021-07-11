@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NBench" Version="2.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\OVRSharp.Graphics.DirectX\OVRSharp.Graphics.DirectX.csproj" />
+    <ProjectReference Include="..\..\OVRSharp.Graphics.OpenGL\OVRSharp.Graphics.OpenGL.csproj" />
+    <ProjectReference Include="..\..\OVRSharp\OVRSharp.csproj" />
+  </ItemGroup>
+
+</Project>

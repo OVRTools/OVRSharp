@@ -56,17 +56,5 @@ namespace OVRSharp.Tests.Graphics
             bitmap.Height.Should().BeGreaterThan(0);
             bitmap.Width.Should().BeGreaterThan(0);
         }
-
-        // This test is mostly here to make sure we are deallocating resources properly.
-        [Test]
-        public void ShouldWorkWhenCalledRapidly()
-        {
-            for (var i = 0; i < 100; i++)
-            {
-                var bitmap = compositor.GetMirrorImage(EVREye.Eye_Left);
-                bitmap.Height.Should().BeGreaterThan(0);
-                bitmap.Width.Should().BeGreaterThan(0);
-            }
-        }
     }
 }

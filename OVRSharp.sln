@@ -17,7 +17,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OVRSharp.Graphics.DirectX",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OVRSharp.Graphics.DirectX.Tests", "tests\OVRSharp.Graphics.DirectX.Tests\OVRSharp.Graphics.DirectX.Tests.csproj", "{80860435-8D24-48BB-BA3A-25ECB6AA6E0A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OVRSharp.Tests", "tests\OVRSharp.Tests\OVRSharp.Tests.csproj", "{875527A2-DDD3-4F4B-A0EF-4F7980D6AB73}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OVRSharp.Tests", "tests\OVRSharp.Tests\OVRSharp.Tests.csproj", "{875527A2-DDD3-4F4B-A0EF-4F7980D6AB73}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OVRSharp.Benchmarks", "tests\OVRSharp.Benchmarks\OVRSharp.Benchmarks.csproj", "{5CF4140D-F0E4-4F9D-8DEC-92F3DD82720F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,6 +51,10 @@ Global
 		{875527A2-DDD3-4F4B-A0EF-4F7980D6AB73}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{875527A2-DDD3-4F4B-A0EF-4F7980D6AB73}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{875527A2-DDD3-4F4B-A0EF-4F7980D6AB73}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5CF4140D-F0E4-4F9D-8DEC-92F3DD82720F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5CF4140D-F0E4-4F9D-8DEC-92F3DD82720F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5CF4140D-F0E4-4F9D-8DEC-92F3DD82720F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5CF4140D-F0E4-4F9D-8DEC-92F3DD82720F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -60,6 +66,7 @@ Global
 		{AF840E83-0D65-4558-8086-F19491B4532B} = {EDA24C40-CE58-429D-A903-19BDE6D024E6}
 		{80860435-8D24-48BB-BA3A-25ECB6AA6E0A} = {AC203731-548C-4C7D-95BD-AAA6D7D288FC}
 		{875527A2-DDD3-4F4B-A0EF-4F7980D6AB73} = {AC203731-548C-4C7D-95BD-AAA6D7D288FC}
+		{5CF4140D-F0E4-4F9D-8DEC-92F3DD82720F} = {AC203731-548C-4C7D-95BD-AAA6D7D288FC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {93984CAB-8CA9-430A-8166-5E2B339CA8A8}
