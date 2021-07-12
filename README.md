@@ -18,6 +18,8 @@ Install-Package OVRSharp
 
 ## Usage
 
+Check out the [Getting Started](https://github.com/OVRTools/OVRSharp/wiki/Getting-Started) guide to learn how to build your first OpenVR overlay with OVRSharp.
+
 Right now, our main goal with this is to make working with the overlay API easier and more C#-like, as well as being entirely platform-agnostic. So you could use this all on its own in your own .NET Core project, or throw it into Unity and work with it there.
 
 Later on, we plan on supporting basically the entirety of the OpenVR API, so you don't need to deal with pointers and stuff. Just write C# as you would expect.
