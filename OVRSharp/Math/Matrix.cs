@@ -16,24 +16,29 @@ namespace OVRSharp.Math
         /// 41 42 43 44
         /// <br/><br/>
         /// To: <br/>
-        /// 11 12 13 41 <br/>
-        /// 21 22 23 42 <br/>
-        /// 31 32 33 43
+        /// 11 21 31 41 <br/>
+        /// 12 22 32 42 <br/>
+        /// 13 23 33 43
         /// </summary>
         public static HmdMatrix34_t ToHmdMatrix34_t(this Matrix4x4 matrix)
         {
             return new HmdMatrix34_t()
             {
+                // row 1
                 m0 = matrix.M11,
-                m1 = matrix.M12,
-                m2 = matrix.M13,
+                m1 = matrix.M21,
+                m2 = matrix.M31,
                 m3 = matrix.M41,
-                m4 = matrix.M21,
+
+                // row 2
+                m4 = matrix.M12,
                 m5 = matrix.M22,
-                m6 = matrix.M23,
+                m6 = matrix.M32,
                 m7 = matrix.M42,
-                m8 = matrix.M31,
-                m9 = matrix.M32,
+
+                // row 3
+                m8 = matrix.M13,
+                m9 = matrix.M23,
                 m10 = matrix.M33,
                 m11 = matrix.M43,
             };
@@ -49,17 +54,17 @@ namespace OVRSharp.Math
         /// 31 32 33 34
         /// <br/><br/>
         /// To: <br/>
-        /// 11 12 13 XX <br/>
-        /// 21 22 23 XX <br/>
-        /// 31 32 33 XX <br/>
+        /// 11 21 31 XX <br/>
+        /// 12 22 32 XX <br/>
+        /// 13 23 33 XX <br/>
         /// 14 24 34 XX
         /// </summary>
         public static Matrix4x4 ToMatrix4x4(this HmdMatrix34_t matrix)
         {
             return new Matrix4x4(
-                matrix.m0, matrix.m1, matrix.m2, 0,
-                matrix.m4, matrix.m5, matrix.m6, 0,
-                matrix.m8, matrix.m9, matrix.m10, 0,
+                matrix.m0, matrix.m4, matrix.m8, 0,
+                matrix.m1, matrix.m5, matrix.m9, 0,
+                matrix.m2, matrix.m6, matrix.m10, 0,
                 matrix.m3, matrix.m7, matrix.m11, 1
             );
         }
